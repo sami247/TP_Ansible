@@ -24,9 +24,9 @@ devops03 ansible_host=172.16.0.102
 
 ```
 Démarrer le playbooks
-
-ansible-playbook playbooks/deploy_projet.yml
-
 ```
+ansible-playbook playbooks/deploy_projet.yml
+```
+
 
 Utiliser sur des machines Ubuntu dans mon cas.
