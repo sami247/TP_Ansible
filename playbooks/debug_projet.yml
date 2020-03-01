@@ -1,0 +1,8 @@
+--
+- name: Install the database
+  hosts: web
+  become: true
+  tasks:
+    - name: Debug
+      debug:
+        msg: "{{ hostvars['devops03']['ansible_host'] }}"

@@ -1,0 +1,19 @@
+---
+
+- name: Install the database
+  hosts: db
+  become: true
+  roles:
+    - mysql
+
+- name: Install web & ftp server
+  hosts: web
+  become: true
+  roles:
+    - web-php-ftp
+
+- name: Install Wordpress
+  hosts: web
+  become: true
+  roles:
+    - wordpress

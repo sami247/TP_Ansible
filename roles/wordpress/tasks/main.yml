@@ -1,0 +1,55 @@
+---
+- name: create /srv/app
+  file:
+    path: /srv/app
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Download WordPress
+  get_url:
+    url: "https://wordpress.org/latest.tar.gz"
+    dest: "/tmp/wordpress.tar.gz"
+    validate_certs: no
+
+- name: Extract WordPress
+  unarchive:
+    src: /tmp/wordpress.tar.gz
+    dest: /srv/app/
+    copy: no
+    owner: root
+    group: root
+  become: true
+
+- name: Configure 000-default.conf
+  template:
+    src: 000-default.conf.j2
+    dest: /etc/apache2/sites-enabled/000-default.conf
+  notify:
+    - restart apache2
+
+- name: Configure apache2.conf
+  template:
+    src: apache2.conf.j2
+    dest: /etc/apache2/apache2.conf
+  notify:
+    - restart apache2
+
+- name: Configure Wordpress
+  template:
+    src: wp-config.php.j2
+    dest: /srv/app/wordpress/wp-config.php
+  notify:
+    - restart apache2
+
+#- name: Install WP-CLI
+#  get_url:
+#    url: "https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
+#    dest: "/usr/local/bin/wp"
+#    mode: 0755
+
+#- name: Install Wordpress
+#  command: wp core install --title="Mon blog" --admin_name=wordpress_admin --admin_password=password --admin_email=you@example.com --path="/srv/app/wordpress" --allow-root
+#  notify:
+#    - restart apache2
