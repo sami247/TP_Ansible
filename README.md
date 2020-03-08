@@ -28,5 +28,3 @@ Démarrer le playbooks
 ansible-playbook playbooks/deploy_projet.yml
 ```
 
-
-Utiliser sur des machines Ubuntu dans mon cas.
